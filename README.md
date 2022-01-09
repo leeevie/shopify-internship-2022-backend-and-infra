@@ -5,6 +5,23 @@ Evie Lee's submission for the Shopify 2022 Internship Backend and Infrastructure
 
 ## How to run locally
 
+### Dependencies
+
+You'll need a Postgres server listening on port 3000.
+You can run one in a docker container using:
+
+```shell
+docker run --name some-postgres -e POSTGRES_PASSWORD=password \
+  --mount type=bind,source="$(pwd)/db_script.sql",target=/docker-entrypoint-initdb.d/db_script.sql \
+  -p 3000:5432 \
+  -d \
+  postgres
+```
+
+### Server
+
+Run:
+
 ```shell
 npm install
 node server.js
