@@ -51,100 +51,58 @@
                     rows += '</div><div class="input-group col">';
                     rows += '<input type="text" readonly class="form-control-plaintext form-display-editable item" name="item"';
                     rows += 'value="' + items[i].item + '">';
+                    rows += '<div class="col-3 select-div"><select disabled class="custom-select stock" name="stock">';
+
+                    // console.log(items[i].stock);
+                    // console.log(typeof items[i].stock);
+
+                    for (j = 1; j < 11; j++) {
+                        rows += '<option value=' + j + '';
+                        if (items[i].stock == j) {
+                            rows += ' selected';
+                        }
+                        rows += '>' + j + '</option>';
+                    }
+                    rows += '</select></div>';
                     rows += '<button type="button" class="btn btn-sm btn-primary btn-edit">Edit</button>';
                     rows += '<button name="type" value="delete" class="btn btn-sm btn-danger">Delete</button>';
                     rows += '</div></form>';
                 }
                 %>
-
-                <!-- This is what the formatting looks like normally: -->
-
-                <!-- Has since been changed -- UPDATE PLEASE! -->
-
-                <!--
-                <form class="form-group row" action="/test" method="post">
-                    <div class="col-sm">
-                        <input type="text" readonly class="form-control-plaintext" name="id" id="id" value="1">
-                    </div>
-                    <div class="col-sm-8">
-                        <input type="text" readonly class="form-control-plaintext" name="item" id="item" value="sheawfkewahjflawjfeklajwow">
-                    </div>
-                    <div class="col-sm">
-                        <button name="type" value="edit" class="btn btn-sm btn-primary">Edit</button>
-                        <button name="type" value="delete" class="btn btn-sm btn-danger">Delete</button>
-                    </div>
-                </form>
-                -->
                 
-                <!-- Then embed the html -->
                 <%- rows %>
 
             <% } %>
+
+            <!-- <h3> static example of item </h3>
+
+            <form class="form-group inventory-item row" action="/edit" method="post">
+                <div class="col-sm-1">
+                    <input type="text" readonly class="form-control-plaintext id" name="id" value="f">
+                </div>
+                <div class="input-group col">
+                    <input type="text" readonly class="form-control-plaintext form-display-editable item" name="item" value="f">
+                    <div class="col-3 select-div">
+                        <select disabled class="custom-select stock" name="stock">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-primary btn-edit">Edit</button>
+                    <button name="type" value="delete" class="btn btn-sm btn-danger">Delete</button>
+                </div>
+            </form> -->
+
         </div>
         
     </div>
     
-
     <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <!-- <script src=""></script> -->
-
-    <script>
-
-        // edit button: when clicked, allows user to edit the text fields
-        $(document).on('click', '.btn-edit', function () {
-            var $this = $(this);
-            
-            // make field editable
-            $this.siblings(".form-display-editable").toggleClass("form-control-plaintext form-control");
-            $this.siblings(".form-display-editable").removeAttr("readonly");
-
-            // change from an edit button to an update button (submit)
-            $this.html("Update");
-            $this.toggleClass("btn-edit btn-update");
-        });
-
-        // update button: after editing enabled, updates data in database <3:o] <-- clown face
-        $(document).on('click', '.btn-update', function () {
-            var $this = $(this);
-            $this.attr("name", "type");
-            $this.attr("value", "edit");
-            $this.attr("type", "submit");
-        });
-
-        // disable enter to submit form, which defaults to the delete button
-        $(".inventory-item").keypress(function(event){
-            if (event.which == '13') {
-                event.preventDefault();
-            }
-        });
-
-        function exportCSV() {
-
-            var ids = document.getElementsByClassName("id");
-            var items = document.getElementsByClassName("item");
-            var data = '';
-
-            // console.log(ids);
-            
-            for (i = 0; i < ids.length; i++) {
-                console.log(ids[i]);
-                data += ids[i].value + ',' + items[i].value + '\n';
-            }
-
-            console.log(data);
-            
-            // code from: https://code-boxx.com/create-save-files-javascript/
-
-            var a = document.createElement("a");
-            a.href = window.URL.createObjectURL(new Blob([data], {type: "text/csv"}));
-            a.download = "export.csv";
-            a.click(); 
-        }
-
-    </script>
+    <script src="./resources/script.js""></script>
 
 </body>
 

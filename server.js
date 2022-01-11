@@ -1,10 +1,10 @@
 require('dotenv').config();
-var express = require('express'); //Ensure our express framework has been added
+var express = require('express');
 var app = express();
-var bodyParser = require('body-parser'); //Ensure our body-parser tool has been added
+var bodyParser = require('body-parser');
 const e = require('express');
-app.use(bodyParser.json());              // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 var pgp = require('pg-promise')();
 
@@ -50,9 +50,10 @@ app.get('/', function(req, res) {
 
 app.post('/create', function(req, res) {
     var item_name = req.body.item_name;
+    var stock = req.body.stock;
 
     // dollar quotes to deal with apostrophes, for whatever reason
-    var insert = `INSERT INTO inventory(item) values ($$${item_name}$$);`;
+    var insert = `INSERT INTO inventory(item, stock) values ($$${item_name}$$,1);`;
 
     // Once item is added, reload page to see in inventory
 	db.any(insert)
@@ -74,8 +75,6 @@ app.post('/edit', function(req, res) {
     var type = req.body.type;
     var id = req.body.id;
     
-    // console.log(type);
-
     if (type === 'delete') {
 
         var del = `DELETE FROM inventory WHERE id=${id};`;
@@ -94,10 +93,13 @@ app.post('/edit', function(req, res) {
     }
     else if (type === 'edit') {
         var item_name = req.body.item;
-        console.log(`Editing: ${item_name}`)
+        var stock = Number(req.body.stock);
 
-        var update = `UPDATE inventory SET item=$$${item_name}$$ WHERE id=${id};`;
-        console.log(update);
+        // console.log(`Editing: ${item_name}`)
+
+        var update = `UPDATE inventory SET item=$$${item_name}$$, stock=${stock} WHERE id=${id};`;
+        
+        // console.log(update);
 
         db.any(update)
         .then(function (rows) {
